@@ -66,6 +66,13 @@ public class LoginPageObject {
             }
         });
     }
-    
+
+    public Boolean errorDivIsPresent() {
+    return driver.findElements(By.className("error")).size() > 0;
+    }
+
+    public Boolean errorTextIsPresent() {
+    return driver.findElements(By.className("form-error")).size() > 0;
+    }
 
 }

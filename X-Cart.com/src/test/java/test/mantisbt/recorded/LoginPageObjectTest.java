@@ -42,12 +42,12 @@ public class LoginPageObjectTest {
         baseUrl = "https://demostore.x-cart.com/";
         // driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         loginPage = new LoginPageObject(baseUrl, driver);
+        PageFactory.initElements(driver, loginPage);
 
     }
 
     @Test
-    public void testLoginWithInvalidCredentials() throws Exception {
-        PageFactory.initElements(driver, loginPage);
+    public void testLoginWithInvalidCredentials() throws Exception {      
 
         loginPage.open();
         String email = "joe@doe.com";
@@ -55,8 +55,33 @@ public class LoginPageObjectTest {
 
         loginPage.setEmailTextField(email);
         loginPage.setPasswordField(password);
-
         loginPage.clickLoginButton();
 
+        assertTrue("Log message: correct username and password", loginPage.errorDivIsPresent() && loginPage.errorTextIsPresent());
+
     }
+    
+    public void testLoginWithValidCredentials() throws Exception {      
+
+        loginPage.open();
+        String email = "franta@pepa.com";
+        String password = "franta";
+
+        loginPage.setEmailTextField(email);
+        loginPage.setPasswordField(password);
+        loginPage.clickLoginButton();
+
+        assertTrue("Log message: incorrect username and password", !loginPage.errorDivIsPresent() && !loginPage.errorTextIsPresent());
+
+    }
+
+    @AfterClass
+    public void tearDown() throws Exception {
+        driver.quit();
+        String verificationErrorString = verificationErrors.toString();
+        if (!"".equals(verificationErrorString)) {
+            fail(verificationErrorString);
+        }
+    }
+
 }
