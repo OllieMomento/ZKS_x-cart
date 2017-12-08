@@ -75,9 +75,25 @@ public class RegisterPageObject {
 
     }
     
+    public boolean isRequiredEmailMsgPresent(){
+        return isElementPresent(By.cssSelector("div.table-value.login-value.table-value-required"));
+    }
+    
+    public boolean isRequiredPasswordMsgPresent(){
+        return isElementPresent(By.cssSelector("div.table-value.password-value.table-value-required"));
+    }
+    public boolean isRequiredPasswordConfMsgPresent(){
+        return isElementPresent(By.cssSelector("div.table-value.password-conf-value.table-value-required"));
+    }
+    
     public boolean isErrorEmailMsgPresent(){
         
         return isElementPresent(By.cssSelector("p.error.inline-error"));
+    }
+    
+    public boolean isErrorMsgPresent(){
+        waitForElement(driver, By.cssSelector("li.error"));
+        return isElementPresent(By.cssSelector("li.error"));
     }
 
     private void waitForElement(RemoteWebDriver driver, final By by) {

@@ -42,23 +42,34 @@ public class RegisterPageObjectTest {
         baseUrl = "https://demostore.x-cart.com/";
         // driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         registerPage = new RegisterPageObject(baseUrl, driver);
-        PageFactory.initElements(driver, registerPage);
+        
     }
 
     @Test
     public void testRegisterWithInvalidEmail() throws Exception {
         
-
+        PageFactory.initElements(driver, registerPage);
         registerPage.open();
         registerPage.setEmailTextField("badformatEmail");
         registerPage.setPasswordField("123456");
         registerPage.setPasswordConfField("123456");
         registerPage.clickSubmitButton();
         assertTrue(registerPage.isErrorEmailMsgPresent());
-        driver.quit();
+        
 
     }
     
+    @Test
+    public void testRegisterWithNotMatchingPasswords() throws Exception{
+        PageFactory.initElements(driver, registerPage);
+        registerPage.open();
+        registerPage.setEmailTextField("email@gmail.com");
+        registerPage.setPasswordField("123456");
+        registerPage.setPasswordConfField("differentPassword");
+        registerPage.clickSubmitButton();
+        assertTrue(registerPage.isErrorMsgPresent());
+        
+    }
    
     
     @AfterClass
