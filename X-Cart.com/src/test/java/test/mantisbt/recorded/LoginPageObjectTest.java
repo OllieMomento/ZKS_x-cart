@@ -61,6 +61,7 @@ public class LoginPageObjectTest {
 
     }
     
+    @Test
     public void testLoginWithValidCredentials() throws Exception {      
 
         loginPage.open();

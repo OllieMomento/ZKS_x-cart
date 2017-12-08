@@ -6,6 +6,7 @@
 package mantisbt.pageObjects;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -68,11 +69,22 @@ public class LoginPageObject {
     }
 
     public Boolean errorDivIsPresent() {
-    return driver.findElements(By.className("error")).size() > 0;
+        waitForElement(driver, By.className("error"));
+        return isElementPresent(By.className("error"));
     }
 
     public Boolean errorTextIsPresent() {
-    return driver.findElements(By.className("form-error")).size() > 0;
+        waitForElement(driver, By.className("form-error"));
+        return isElementPresent(By.className("form-error"));
+    }
+
+    private boolean isElementPresent(By by) {
+        try {
+            driver.findElement(by);
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
 }
