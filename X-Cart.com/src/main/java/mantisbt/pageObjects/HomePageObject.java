@@ -50,15 +50,11 @@ public class HomePageObject {
         Actions actions = new Actions(driver);
         WebElement hoverElement = driver.findElement(By.cssSelector("a[href*=" + item + "]"));
         String code = "window.scroll(" + (hoverElement.getLocation().x + 0) + ","
-                                 + (hoverElement.getLocation().y - 100) + ");";
-        
+                + (hoverElement.getLocation().y - 100) + ");";
+
         ((JavascriptExecutor) driver).executeScript(code, hoverElement);
-        actions.moveToElement(hoverElement);
-        actions.build();
-        actions.perform();
-                
-        driver.findElement(By.xpath("//span[contains(text(),'Add to cart')]")).click();
-       
+        actions.moveToElement(hoverElement).moveToElement(driver.findElement(By.cssSelector("button.btn.regular-button.add-to-cart.product-add2cart.productid-37"))).click().perform();
+
     }
 
     public void searchItem(String item) {
