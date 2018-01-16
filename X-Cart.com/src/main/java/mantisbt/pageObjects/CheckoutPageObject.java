@@ -33,7 +33,7 @@ public class CheckoutPageObject {
     private final String baseUrl;
 
     public CheckoutPageObject(String baseUrl, RemoteWebDriver driver) {
-        this.baseUrl = baseUrl;
+        this.baseUrl = baseUrl + "?target=checkout";
         this.driver = driver;
     }
 
@@ -52,70 +52,87 @@ public class CheckoutPageObject {
     }
 
     public void fillEmail(String emailValue) {
+        driver.findElement(By.name("email")).clear();
         driver.findElement(By.name("email")).sendKeys(emailValue);
     }
 
     public void fillPassword(String password) {
+        driver.findElement(By.name("password")).clear();
         driver.findElement(By.name("password")).sendKeys(password);
     }
 
     public void fillShippingAddressFirstName(String firstName) {
+        driver.findElement(By.name("shippingAddress[firstname]")).clear();
         driver.findElement(By.name("shippingAddress[firstname]")).sendKeys(firstName);
     }
 
     public void fillShippingAddressLastName(String lastName) {
+        driver.findElement(By.name("shippingAddress[lastname]")).clear();
         driver.findElement(By.name("shippingAddress[lastname]")).sendKeys(lastName);
     }
 
     public void fillShippingAddressStreet(String street) {
+        driver.findElement(By.name("shippingAddress[street]")).clear();
         driver.findElement(By.name("shippingAddress[street]")).sendKeys(street);
     }
 
     public void fillShippingAddressCity(String city) {
+        driver.findElement(By.name("shippingAddress[city]")).clear();
         driver.findElement(By.name("shippingAddress[city]")).sendKeys(city);
     }
 
     public void fillShippingAddressState(String state) {
+        driver.findElement(By.name("shippingAddress[custom_state]")).clear();
         driver.findElement(By.name("shippingAddress[custom_state]")).sendKeys(state);
     }
 
     public void fillShippingAddressZipcode(String zipcode) {
+        driver.findElement(By.name("shippingAddress[zipcode]")).clear();
         driver.findElement(By.name("shippingAddress[zipcode]")).sendKeys(zipcode);
     }
 
     public void fillShippingAddressPhone(String phone) {
+        driver.findElement(By.name("shippingAddress[phone]")).clear();
         driver.findElement(By.name("shippingAddress[phone]")).sendKeys(phone);
     }
 
     public void fillBillingAddressFirstName(String firstName) {
+        driver.findElement(By.name("billingAddress[firstname]")).clear();
         driver.findElement(By.name("billingAddress[firstname]")).sendKeys(firstName);
     }
 
     public void fillBillingAddressLastName(String lastName) {
+        driver.findElement(By.name("billingAddress[lastname]")).clear();
         driver.findElement(By.name("billingAddress[lastname]")).sendKeys(lastName);
     }
 
     public void fillBillingAddressStreet(String street) {
+        driver.findElement(By.name("billingAddress[street]")).clear();
         driver.findElement(By.name("billingAddress[street]")).sendKeys(street);
     }
 
     public void fillBillingAddressCity(String city) {
+        driver.findElement(By.name("billingAddress[city]")).clear();
         driver.findElement(By.name("billingAddress[city]")).sendKeys(city);
     }
 
     public void fillBillingAddressState(String state) {
+        driver.findElement(By.name("billingAddress[custom_state]")).clear();
         driver.findElement(By.name("billingAddress[custom_state]")).sendKeys(state);
     }
 
     public void fillBillingAddressZipcode(String zipcode) {
+        driver.findElement(By.name("billingAddress[zipcode]")).clear();
         driver.findElement(By.name("billingAddress[zipcode]")).sendKeys(zipcode);
     }
 
     public void fillBillingAddressPhone(String phone) {
+        driver.findElement(By.name("billingAddress[phone]")).clear();
         driver.findElement(By.name("billingAddress[phone]")).sendKeys(phone);
     }
 
     public void fillBillingAddressVAT(String VAT) {
+        driver.findElement(By.name("billingAddress[vat_number]")).clear();
         driver.findElement(By.name("billingAddress[vat_number]")).sendKeys(VAT);
     }
 

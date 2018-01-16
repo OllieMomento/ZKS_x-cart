@@ -66,6 +66,10 @@ public class HomePageObject {
         String text = driver.findElement(By.id("ui-id-4")).getText();
         return text.equals("You have just added");
     }
+    
+    public void clickOnCheckout(String item) {
+        driver.findElement(By.cssSelector("a[href*=" + item + "]")).click();
+    }
 
     private void waitForElement(RemoteWebDriver driver, final By by) {
         Wait<WebDriver> wait = new WebDriverWait(driver, 10);

@@ -62,7 +62,8 @@ public class LoginPageObjectTest {
 
     }
     
-    @Test(dependsOnMethods={"testLoginWithInvalidCredentials"})
+    @Test
+        //(dependsOnMethods={"testLoginWithInvalidCredentials"})
     public void testLoginWithValidCredentials() throws Exception {      
         PageFactory.initElements(driver, loginPage);
         loginPage.open();

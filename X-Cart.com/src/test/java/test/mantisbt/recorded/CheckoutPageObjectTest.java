@@ -5,8 +5,12 @@
  */
 package test.mantisbt.recorded;
 
+import java.util.ArrayList;
+import java.util.List;
 import mantisbt.pageObjects.CartPageObject;
+import mantisbt.pageObjects.CheckoutPageObject;
 import mantisbt.pageObjects.HomePageObject;
+import mantisbt.pageObjects.LoginPageObject;
 import static org.junit.Assert.assertTrue;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -16,22 +20,22 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import org.testng.TestListenerAdapter;
+import org.testng.TestNG;
 
 /**
  *
  * @author Ollie
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
-    CartPageObjectTest.class,})
-
 
 public class CheckoutPageObjectTest {
 
     private RemoteWebDriver driver;
     private String baseUrl;
-    private CheckoutPageObjectTest checkoutPage;
+    private CheckoutPageObject checkoutPage;
+    private LoginPageObject loginPage;
     private HomePageObject homePage;
+    private CartPageObject cartPage;
 
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
@@ -41,9 +45,71 @@ public class CheckoutPageObjectTest {
         // driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
-    @Test
-    public void testAddItem() throws Exception {
-        new CartPageObjectTest().testAddItem();
+   @Test
+        //(dependsOnMethods={"testLoginWithInvalidCredentials"})
+    public void testLoginWithValidCredentials() throws Exception {   
+        loginPage = new LoginPageObject(baseUrl, driver); 
+        PageFactory.initElements(driver, loginPage);
+        loginPage.open();
+        loginPage.clickSignInUp();
+        String email = "franta@pepa.com";
+        String password = "franta";
+
+        loginPage.setEmailTextField(email);
+        loginPage.setPasswordField(password);
+        loginPage.clickLoginButton();
+
+        assertTrue("Log message: incorrect username and password", !loginPage.errorDivIsPresent() && !loginPage.errorTextIsPresent());
+
+    }
+    
+    @Test(dependsOnMethods={"testLoginWithValidCredentials"})
+    public void testAddItemAndCheckout() throws Exception {  
+        homePage = new HomePageObject(baseUrl, driver); 
+        PageFactory.initElements(driver, homePage);
+        //need to add a item into cart
+        homePage.open();
+        Thread.sleep(1000);
+        homePage.browseItemAndAddToCart("apple-iphone-6-16gb");
+        Thread.sleep(1000);
       
+    }
+    
+    @Test(dependsOnMethods={"testAddItemAndCheckout"})
+    public void testValidEmailAddressVAT() throws Exception {  
+        checkoutPage = new CheckoutPageObject(baseUrl, driver);  
+        PageFactory.initElements(driver, checkoutPage);
+        checkoutPage.open();
+        checkoutPage.fillEmail("a@a.cz");
+        checkoutPage.fillShippingAddressFirstName("Karel");
+        checkoutPage.fillShippingAddressLastName("Vobtahnul");
+        checkoutPage.fillShippingAddressStreet("Ritni");
+        checkoutPage.fillShippingAddressCity("Los Prdos");
+        checkoutPage.fillShippingAddressState("OllieLand");
+        checkoutPage.fillShippingAddressZipcode("12212");
+        checkoutPage.fillShippingAddressPhone("112567");
+        
+        boolean isError = checkoutPage.findErrors().size()>=1;
+        
+        assertTrue("Log message: Field(s) are invalid:" + checkoutPage.findErrors().toString(), !isError);
+    }
+    
+    @Test(dependsOnMethods={"testAddItemAndCheckout"})
+    public void testInvalidEmailAddressVAT() throws Exception {  
+        checkoutPage = new CheckoutPageObject(baseUrl, driver);  
+        PageFactory.initElements(driver, checkoutPage);
+        checkoutPage.open();
+        checkoutPage.fillEmail("a");
+        checkoutPage.fillShippingAddressFirstName("");
+        checkoutPage.fillShippingAddressLastName("Vobtahnul");
+        checkoutPage.fillShippingAddressStreet("Ritni");
+        checkoutPage.fillShippingAddressCity("Los Prdos");
+        checkoutPage.fillShippingAddressState("OllieLand");
+        checkoutPage.fillShippingAddressZipcode("12212");
+        checkoutPage.fillShippingAddressPhone("112567");
+        
+        boolean isError = checkoutPage.findErrors().size()>=1;
+        
+        assertTrue("Log message: Field(s) are invalid:" + checkoutPage.findErrors().toString(), isError);
     }
 }
