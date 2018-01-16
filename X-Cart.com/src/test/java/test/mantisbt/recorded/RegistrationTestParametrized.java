@@ -7,9 +7,10 @@ package test.mantisbt.recorded;
  */
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 import mantisbt.pageObjects.RegisterPageObject;
-
+import utils.CSVReader;
 import org.apache.commons.io.FileUtils;
 import static org.junit.Assert.assertTrue;
 import org.junit.runner.RunWith;
@@ -29,8 +30,18 @@ import org.testng.ITestResult;
  *
  * @author BeryUncool
  */
-@RunWith(Parameterized.class)
+//@RunWith(Parameterized.class)
 public class RegistrationTestParametrized {
+    
+    @Parameterized.Parameters
+    public static Collection<String[]> data() throws IOException {
+        return null;
+        // jak pridat resource soubor
+        // New > Java Package
+        // - Project Resources
+        // objevi se ve stromu Other Sources 
+        //return CSVReader.readCSVfileToCollection('');
+    }
 
      
 
