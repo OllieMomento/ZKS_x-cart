@@ -42,14 +42,15 @@ public class LoginPageObjectTest {
         baseUrl = "https://demostore.x-cart.com/";
         // driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         loginPage = new LoginPageObject(baseUrl, driver);
-        PageFactory.initElements(driver, loginPage);
+        //
 
     }
 
     @Test
     public void testLoginWithInvalidCredentials() throws Exception {      
-
+        PageFactory.initElements(driver, loginPage);
         loginPage.open();
+        loginPage.clickSignInUp();
         String email = "joe@doe.com";
         String password = "joeking";
 
@@ -61,10 +62,11 @@ public class LoginPageObjectTest {
 
     }
     
-    @Test
+    @Test(dependsOnMethods={"testLoginWithInvalidCredentials"})
     public void testLoginWithValidCredentials() throws Exception {      
-
+        PageFactory.initElements(driver, loginPage);
         loginPage.open();
+        loginPage.clickSignInUp();
         String email = "franta@pepa.com";
         String password = "franta";
 
@@ -74,6 +76,14 @@ public class LoginPageObjectTest {
 
         assertTrue("Log message: incorrect username and password", !loginPage.errorDivIsPresent() && !loginPage.errorTextIsPresent());
 
+    }
+    
+    @Test(dependsOnMethods={"testLoginWithValidCredentials"})
+    public void testLogout() throws Exception {      
+        PageFactory.initElements(driver, loginPage);
+        loginPage.open();
+        loginPage.logout();
+        assertTrue("Log msg: Not logged out", loginPage.signUpIsPresent());
     }
 
     @AfterClass

@@ -13,6 +13,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -26,9 +27,16 @@ public class LoginPageObject {
     private final String baseUrl;
 
     @FindBy(css = "#header-bar div:nth-of-type(3) button.btn.regular-button.popup-button.popup-login")
-    @CacheLookup
     private WebElement signInsignUp;
+    
+    @FindBy(xpath = "/html/body/div[1]/div[1]/div[3]/div[1]/div/div[2]/div[3]/a")
+    private WebElement myAccount1;
 
+    @FindBy(xpath = "/html/body/div[1]/div[1]/div[3]/div[1]/div/div[2]/div[3]/ul/li[7]/a/span")
+    private WebElement logout;
+
+   
+    
     public LoginPageObject(String baseUrl, RemoteWebDriver driver) {
 
         this.baseUrl = baseUrl;
@@ -38,9 +46,14 @@ public class LoginPageObject {
     public void open() {
         System.out.println("BASE URL: " + baseUrl);
         driver.get(baseUrl);
-        driver.manage().window().maximize();
-        signInsignUp.click();
+        //driver.manage().window().maximize();
 
+    }
+    
+    public void clickSignInUp(){
+        
+        signInsignUp.click();
+        
     }
 
     public void setEmailTextField(String emailValue) {
@@ -58,6 +71,18 @@ public class LoginPageObject {
         driver.findElement(By.cssSelector("td button.btn.regular-button.submit")).click();
 
     }
+    
+    public void logout() throws InterruptedException{
+        //Thread.sleep(1500);
+        myAccount1.click();
+        //Thread.sleep(1500);
+        logout.click();
+    }
+    
+    public boolean signUpIsPresent() throws InterruptedException{
+        Thread.sleep(1500);
+        return isElementPresent(By.xpath("/html/body/div[1]/div[1]/div[3]/div[1]/div/div[2]/div[3]/button"));
+    }
 
     private void waitForElement(RemoteWebDriver driver, final By by) {
         Wait<WebDriver> wait = new WebDriverWait(driver, 10);
@@ -66,15 +91,18 @@ public class LoginPageObject {
                 return driver.findElement(by).isDisplayed();
             }
         });
+        
     }
 
-    public Boolean errorDivIsPresent() {
-        waitForElement(driver, By.className("error"));
+    public Boolean errorDivIsPresent() throws InterruptedException {
+        //waitForElement(driver, By.className("error"));
+        Thread.sleep(3000);
         return isElementPresent(By.className("error"));
     }
 
-    public Boolean errorTextIsPresent() {
-        waitForElement(driver, By.className("form-error"));
+    public Boolean errorTextIsPresent() throws InterruptedException {
+        //waitForElement(driver, By.className("form-error"));
+        Thread.sleep(3000);
         return isElementPresent(By.className("form-error"));
     }
 
