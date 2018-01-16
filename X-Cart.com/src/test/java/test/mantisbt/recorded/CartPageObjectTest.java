@@ -55,8 +55,18 @@ public class CartPageObjectTest {
         cartPage.open();
         cartPage.changeQuantity("3");
         Thread.sleep(3000);
-        System.out.println(cartPage.isChangeOkay("3"));
         assertTrue("Log message: Items wasnt changed", cartPage.isChangeOkay("3"));
+    }
+    
+    @Test(dependsOnMethods = {"testChangeQuantity"})
+    public void testRemoveItem() throws Exception {  
+        cartPage = new CartPageObject(baseUrl, driver);  
+        PageFactory.initElements(driver, cartPage);
+        cartPage.open();
+        cartPage.removeItem();
+        Thread.sleep(3000);
+        
+        assertTrue("Log message: Cart is not empty", cartPage.isCartEmpty());
     }
     
 }

@@ -56,7 +56,11 @@ public class CartPageObject {
         String text = driver.findElement(By.id("page-title")).getText();        
         return text.contains(number);
     }
-    
+     public boolean isCartEmpty(){        
+        String text = driver.findElement(By.id("page-title")).getText();        
+        return text.contains("Your cart is empty");
+    }
+     
     public void continueShopping(){
         driver.findElement(By.cssSelector("button.btn.regular-button.action.continue")).click();
     }
