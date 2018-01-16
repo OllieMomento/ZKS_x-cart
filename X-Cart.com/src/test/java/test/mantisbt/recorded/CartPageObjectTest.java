@@ -8,6 +8,7 @@ package test.mantisbt.recorded;
 import java.util.concurrent.TimeUnit;
 import mantisbt.pageObjects.CartPageObject;
 import mantisbt.pageObjects.HomePageObject;
+import static org.junit.Assert.assertTrue;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.PageFactory;
@@ -42,15 +43,20 @@ public class CartPageObjectTest {
         homePage.open();
         homePage.browseItemAndAddToCart("apple-iphone-6-16gb");
         Thread.sleep(3000);
+        
+        assertTrue("Log message: Item wasnt added", homePage.isItemAdded());
      
     }
     
     @Test(dependsOnMethods = {"testAddItem"})
     public void testChangeQuantity() throws Exception {  
         cartPage = new CartPageObject(baseUrl, driver);  
-        //PageFactory.initElements(driver, cartPage);
+        PageFactory.initElements(driver, cartPage);
         cartPage.open();
         cartPage.changeQuantity("3");
+        Thread.sleep(3000);
+        System.out.println(cartPage.isChangeOkay("3"));
+        assertTrue("Log message: Items wasnt changed", cartPage.isChangeOkay("3"));
     }
     
 }

@@ -61,6 +61,11 @@ public class HomePageObject {
         driver.findElement(By.name("substring")).sendKeys(item);
         driver.findElement(By.cssSelector("button.btn.regular-button.submit-button.submit")).click();
     }
+    
+    public boolean isItemAdded() {
+        String text = driver.findElement(By.id("ui-id-4")).getText();
+        return text.equals("You have just added");
+    }
 
     private void waitForElement(RemoteWebDriver driver, final By by) {
         Wait<WebDriver> wait = new WebDriverWait(driver, 10);

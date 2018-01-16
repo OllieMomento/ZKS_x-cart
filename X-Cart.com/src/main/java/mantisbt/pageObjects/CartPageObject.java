@@ -48,7 +48,13 @@ public class CartPageObject {
     }
 
     public void changeQuantity(String newQuantity){
+        driver.findElement(By.name("amount")).clear();
         driver.findElement(By.name("amount")).sendKeys(newQuantity);
+    }
+    
+    public boolean isChangeOkay(String number){        
+        String text = driver.findElement(By.id("page-title")).getText();        
+        return text.contains(number);
     }
     
     public void continueShopping(){
