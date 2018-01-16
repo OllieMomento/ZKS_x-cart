@@ -22,11 +22,28 @@ import org.junit.runners.Suite;
  * @author Ollie
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses(
-    CartPageObjectTest.class)
+@Suite.SuiteClasses({
+    CartPageObjectTest.class,})
 
 
 public class CheckoutPageObjectTest {
 
+    private RemoteWebDriver driver;
+    private String baseUrl;
+    private CheckoutPageObjectTest checkoutPage;
+    private HomePageObject homePage;
 
+    @BeforeClass(alwaysRun = true)
+    public void setUp() throws Exception {
+        System.setProperty("webdriver.gecko.driver", "C:\\Selenium\\geckodriver.exe");
+        driver = new FirefoxDriver();
+        baseUrl = "https://demostore.x-cart.com/";
+        // driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void testAddItem() throws Exception {
+        new CartPageObjectTest().testAddItem();
+      
+    }
 }
