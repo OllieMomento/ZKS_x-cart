@@ -42,12 +42,10 @@ public class RegisterPageObjectTest {
         baseUrl = "https://demostore.x-cart.com/";
         // driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         registerPage = new RegisterPageObject(baseUrl, driver);
-        
     }
 
     @Test
     public void testRegisterWithInvalidEmail() throws Exception {
-        
         PageFactory.initElements(driver, registerPage);
         registerPage.open();
         registerPage.setEmailTextField("badformatEmail");
@@ -55,8 +53,6 @@ public class RegisterPageObjectTest {
         registerPage.setPasswordConfField("123456");
         registerPage.clickSubmitButton();
         assertTrue(registerPage.isErrorEmailMsgPresent());
-        
-
     }
     
     @Test
@@ -68,7 +64,6 @@ public class RegisterPageObjectTest {
         registerPage.setPasswordConfField("differentPassword");
         registerPage.clickSubmitButton();
         assertTrue(registerPage.isErrorMsgPresent());
-        
     }
    
     
