@@ -35,7 +35,7 @@ public class RegistrationTestParametrized {
     
     @Parameterized.Parameters
     public static Collection<String[]> data() throws IOException {
-        return null;
+        return CSVReader.readCSVfileToCollection("", "");
         // jak pridat resource soubor
         // New > Java Package
         // - Project Resources
