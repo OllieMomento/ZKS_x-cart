@@ -9,11 +9,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import mantisbt.pageObjects.RegisterPageObject;
-
+import utils.AllPairsHellperObject;
 import org.apache.commons.io.FileUtils;
 import static org.junit.Assert.assertTrue;
 import org.testng.annotations.*;
 import static org.testng.Assert.*;
+import org.testng.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -44,6 +45,24 @@ public class RegisterPageObjectTest {
         registerPage = new RegisterPageObject(baseUrl, driver);
     }
 
+    @DataProvider(name = "test1")
+    public static Object[][] data() {
+        AllPairsHellperObject allPairsObject=  new AllPairsHellperObject();
+        return allPairsObject.getData();
+    }
+
+    @Test(dataProvider = "test1")
+    public void testRegisterParametrized(String email, String password, String passworconfirm, boolean expectedResult) throws Exception {
+        PageFactory.initElements(driver, registerPage);
+        registerPage.open();
+        registerPage.setEmailTextField(email);
+        registerPage.setPasswordField(password);
+        registerPage.setPasswordConfField(passworconfirm);
+        registerPage.clickSubmitButton();
+        assertEquals(!registerPage.isErrorEmailMsgPresent(), expectedResult);
+        
+    }
+    
     @Test
     public void testRegisterWithInvalidEmail() throws Exception {
         PageFactory.initElements(driver, registerPage);
@@ -54,9 +73,9 @@ public class RegisterPageObjectTest {
         registerPage.clickSubmitButton();
         assertTrue(registerPage.isErrorEmailMsgPresent());
     }
-    
+
     @Test
-    public void testRegisterWithNotMatchingPasswords() throws Exception{
+    public void testRegisterWithNotMatchingPasswords() throws Exception {
         PageFactory.initElements(driver, registerPage);
         registerPage.open();
         registerPage.setEmailTextField("email@gmail.com");
@@ -65,8 +84,7 @@ public class RegisterPageObjectTest {
         registerPage.clickSubmitButton();
         assertTrue(registerPage.isErrorMsgPresent());
     }
-   
-    
+
     @AfterClass
     public void tearDown() throws Exception {
         driver.quit();
