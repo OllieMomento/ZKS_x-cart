@@ -58,7 +58,8 @@ public class CartPageObjectTest {
         assertTrue("Log message: Items wasnt changed", cartPage.isChangeOkay("3"));
     }
     
-    //@Test(dependsOnMethods = {"testChangeQuantity"})
+    @Test
+        //(dependsOnMethods = {"testChangeQuantity"})
     public void testRemoveItem() throws Exception {  
         cartPage = new CartPageObject(baseUrl, driver);  
         PageFactory.initElements(driver, cartPage);

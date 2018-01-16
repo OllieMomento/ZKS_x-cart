@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Command line suite]">
+  <test name="Command line test(failed)">
+    <classes>
+      <class name="test.mantisbt.recorded.CartPageObjectTest">
+        <methods>
+          <include name="setUp"/>
+          <include name="testAddItem"/>
+          <include name="testChangeQuantity"/>
+        </methods>
+      </class> <!-- test.mantisbt.recorded.CartPageObjectTest -->
+    </classes>
+  </test> <!-- Command line test(failed) -->
+</suite> <!-- Failed suite [Command line suite] -->
