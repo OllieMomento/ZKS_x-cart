@@ -75,14 +75,15 @@ public class RegisterPageObjectTest {
     }
 
     @Test
-    public void testRegisterWithNotMatchingPasswords() throws Exception {
+    public void testRegisterWithValidCredentials() throws Exception {
         PageFactory.initElements(driver, registerPage);
         registerPage.open();
-        registerPage.setEmailTextField("email@gmail.com");
+        registerPage.setEmailTextField("jokoono@gmail.com");
         registerPage.setPasswordField("123456");
-        registerPage.setPasswordConfField("differentPassword");
+        registerPage.setPasswordConfField("123456");
         registerPage.clickSubmitButton();
-        assertTrue(registerPage.isErrorMsgPresent());
+        Thread.sleep(1500);
+        assertTrue("Not registerd", registerPage.isRegistrationSuccessful());
     }
 
     @AfterClass

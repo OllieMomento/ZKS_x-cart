@@ -62,13 +62,22 @@ public class HomePageObject {
         driver.findElement(By.cssSelector("button.btn.regular-button.submit-button.submit")).click();
     }
     
-    public boolean isItemAdded() {
+    public boolean isItemAdded() throws InterruptedException {
+        Thread.sleep(1500);
         String text = driver.findElement(By.id("ui-id-4")).getText();
         return text.equals("You have just added");
     }
     
     public void clickOnCheckout(String item) {
         driver.findElement(By.cssSelector("a[href*=" + item + "]")).click();
+    }
+    
+    public void searchItemAndAddToCart(String item) throws InterruptedException {
+       driver.findElement(By.name("substring")).sendKeys(item);
+       driver.findElement(By.cssSelector("button.btn.regular-button.submit-button.submit")).click();
+       driver.findElement(By.xpath("/html/body/div[1]/div[1]/div[4]/div/div/div[2]/div/div/div[2]/div/div[2]/div/div/div[6]/ul/li[1]/div/h5/a")).click();
+       Thread.sleep(1500);
+       driver.findElement(By.xpath("/html/body/div[1]/div/div[1]/div[4]/div/div/div/div/div/div[1]/form/div[5]/div[8]/div/div[1]/button")).click();
     }
 
     private void waitForElement(RemoteWebDriver driver, final By by) {
@@ -88,5 +97,7 @@ public class HomePageObject {
             return false;
         }
     }
+
+    
 
 }

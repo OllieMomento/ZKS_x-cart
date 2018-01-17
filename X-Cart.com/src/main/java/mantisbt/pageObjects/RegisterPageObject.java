@@ -95,6 +95,12 @@ public class RegisterPageObject {
         waitForElement(driver, By.cssSelector("li.error"));
         return isElementPresent(By.cssSelector("li.error"));
     }
+    
+    
+     public boolean isRegistrationSuccessful() throws InterruptedException {
+        Thread.sleep(1500); 
+        return isElementPresent(By.xpath("/html/body/div[1]/div[1]/div[4]/div/div/div[2]/div/div/div[2]/div/div[3]/ul/li/div/div/button"));
+    }
 
     private void waitForElement(RemoteWebDriver driver, final By by) {
         Wait<WebDriver> wait = new WebDriverWait(driver, 10);
@@ -113,6 +119,10 @@ public class RegisterPageObject {
             return false;
         }
     }
+
+   
+
+   
     
 
 }

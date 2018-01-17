@@ -35,35 +35,43 @@ public class HomePageObjectTest {
         
     }
 
-    //@Test
-    public void testSelectItem() throws Exception {
-        
+    @Test
+    public void testBrowseItem() throws Exception {
         PageFactory.initElements(driver, homePage);
         homePage.open();
         homePage.browseItemAndView("apple-iphone-6-16gb");
-        
-
+    }
+    
+    @Test
+    public void testBrowseItemAndAddToCart() throws Exception {
+        PageFactory.initElements(driver, homePage);
+        homePage.open();
+        homePage.browseItemAndAddToCart("apple-iphone-6-16gb");
+        assertTrue("Item was not added" ,homePage.isItemAdded());
     }
     
     @Test
     public void testHoverItem() throws Exception {
-        
         PageFactory.initElements(driver, homePage);
         homePage.open();
-        
         homePage.browseItemAndAddToCart("apple-iphone-6-16gb");
         
-
     }
     
-    //@Test
+    @Test
     public void testSearchItem() throws Exception {
-        
         PageFactory.initElements(driver, homePage);
         homePage.open();
         homePage.searchItem("Apple Iphone 6s");
         
-
+    }
+    
+    @Test
+    public void testSearchItemAndAddToCart() throws Exception {
+        PageFactory.initElements(driver, homePage);
+        homePage.open();
+        homePage.searchItemAndAddToCart("Apple Iphone 6s");
+        assertTrue("Iteam was not added.", homePage.isItemAdded());
     }
 
     @AfterClass
