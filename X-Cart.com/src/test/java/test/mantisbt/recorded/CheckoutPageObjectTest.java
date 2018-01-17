@@ -20,6 +20,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import org.openqa.selenium.By;
 import org.testng.TestListenerAdapter;
 import org.testng.TestNG;
 
@@ -27,7 +28,6 @@ import org.testng.TestNG;
  *
  * @author Ollie
  */
-
 public class CheckoutPageObjectTest {
 
     private RemoteWebDriver driver;
@@ -45,10 +45,10 @@ public class CheckoutPageObjectTest {
         // driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
-   @Test
-        //(dependsOnMethods={"testLoginWithInvalidCredentials"})
-    public void testLoginWithValidCredentials() throws Exception {   
-        loginPage = new LoginPageObject(baseUrl, driver); 
+    @Test
+    //(dependsOnMethods={"testLoginWithInvalidCredentials"})
+    public void testLoginWithValidCredentials() throws Exception {
+        loginPage = new LoginPageObject(baseUrl, driver);
         PageFactory.initElements(driver, loginPage);
         loginPage.open();
         loginPage.clickSignInUp();
@@ -62,22 +62,22 @@ public class CheckoutPageObjectTest {
         assertTrue("Log message: incorrect username and password", !loginPage.errorDivIsPresent() && !loginPage.errorTextIsPresent());
 
     }
-    
-    @Test(dependsOnMethods={"testLoginWithValidCredentials"})
-    public void testAddItemAndCheckout() throws Exception {  
-        homePage = new HomePageObject(baseUrl, driver); 
+
+    @Test(dependsOnMethods = {"testLoginWithValidCredentials"})
+    public void testAddItemAndCheckout() throws Exception {
+        homePage = new HomePageObject(baseUrl, driver);
         PageFactory.initElements(driver, homePage);
         //need to add a item into cart
         homePage.open();
         Thread.sleep(1000);
         homePage.browseItemAndAddToCart("apple-iphone-6-16gb");
         Thread.sleep(1000);
-      
+
     }
-    
-    @Test(dependsOnMethods={"testAddItemAndCheckout"})
-    public void testValidEmailAddressVAT() throws Exception {  
-        checkoutPage = new CheckoutPageObject(baseUrl, driver);  
+
+    @Test(dependsOnMethods = {"testAddItemAndCheckout"})
+    public void testValidEmailAddressVAT() throws Exception {
+        checkoutPage = new CheckoutPageObject(baseUrl, driver);
         PageFactory.initElements(driver, checkoutPage);
         checkoutPage.open();
         checkoutPage.fillEmail("a@a.cz");
@@ -88,15 +88,16 @@ public class CheckoutPageObjectTest {
         checkoutPage.fillShippingAddressState("OllieLand");
         checkoutPage.fillShippingAddressZipcode("12212");
         checkoutPage.fillShippingAddressPhone("112567");
-        
-        boolean isError = checkoutPage.findErrors().size()>=1;
-        
+
+        boolean isError = checkoutPage.findErrors().size() >= 1;
+
         assertTrue("Log message: Field(s) are invalid:" + checkoutPage.findErrors().toString(), !isError);
+
     }
-    
-    @Test(dependsOnMethods={"testAddItemAndCheckout"})
-    public void testInvalidEmailAddressVAT() throws Exception {  
-        checkoutPage = new CheckoutPageObject(baseUrl, driver);  
+
+    //@Test(dependsOnMethods={"testAddItemAndCheckout"})
+    public void testInvalidEmailAddressVAT() throws Exception {
+        checkoutPage = new CheckoutPageObject(baseUrl, driver);
         PageFactory.initElements(driver, checkoutPage);
         checkoutPage.open();
         checkoutPage.fillEmail("a");
@@ -107,9 +108,39 @@ public class CheckoutPageObjectTest {
         checkoutPage.fillShippingAddressState("OllieLand");
         checkoutPage.fillShippingAddressZipcode("12212");
         checkoutPage.fillShippingAddressPhone("112567");
-        
-        boolean isError = checkoutPage.findErrors().size()>=1;
-        
+
+        boolean isError = checkoutPage.findErrors().size() >= 1;
+
         assertTrue("Log message: Field(s) are invalid:" + checkoutPage.findErrors().toString(), isError);
+    }
+
+    @Test(dependsOnMethods = {"testValidEmailAddressVAT"})
+    public void testValidCreditCard() throws Exception {
+        Thread.sleep(2000);
+        checkoutPage = new CheckoutPageObject(baseUrl, driver);
+        while (!checkoutPage.isElementPresent(By.id("cart_number"))) {
+            System.out.println(driver.findElement(By.id("page-title")).getText());
+            System.out.println(driver.findElement(By.id("payment_form")).getText());
+            
+            Thread.sleep(5000);
+        }
+
+        System.out.println("KOKOTEEE: " + driver.findElement(By.id("cart_number")).getText());
+        //PageFactory.initElements(driver, checkoutPage);
+        //checkoutPage.open();
+        checkoutPage.selectPaymentMethod();
+        Thread.sleep(50000);
+        checkoutPage.fillCreditCardNumber("4242424200024242");
+        //checkoutPage.fillCreditCardExpireMonth("9");
+        //checkoutPage.fillCreditCardExpireYear("19");
+        //checkoutPage.fillCreditCardName("pan kreditka");
+        //checkoutPage.fillCreditCardCVV2("123");
+        checkoutPage.placeOrder();
+        Thread.sleep(6000);
+        checkoutPage.isOrderOkay();
+
+        boolean isOkay = checkoutPage.isOrderOkay();
+
+        assertTrue("Log message: Field(s) are invalid:", isOkay);
     }
 }

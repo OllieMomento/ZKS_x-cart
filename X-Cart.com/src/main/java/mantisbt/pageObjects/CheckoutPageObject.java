@@ -32,6 +32,9 @@ public class CheckoutPageObject {
     private final RemoteWebDriver driver;
     private final String baseUrl;
 
+    @FindBy(css = "input#card_number")
+    private WebElement creditCard;
+
     public CheckoutPageObject(String baseUrl, RemoteWebDriver driver) {
         this.baseUrl = baseUrl + "?target=checkout";
         this.driver = driver;
@@ -168,22 +171,28 @@ public class CheckoutPageObject {
     }
 
     public void fillCreditCardNumber(String cardNumber) {
-        driver.findElement(By.name("posted_data[card_number]")).sendKeys(cardNumber);
+        driver.findElement(By.id("cart_number")).clear();
+       // driver.findElement(By.id("cart_number")).sendKeys(cardNumber);
     }
 
     public void fillCreditCardExpireMonth(String expireMonth) {
+        driver.findElement(By.name("posted_data[card_expire_month]")).clear();
         driver.findElement(By.name("posted_data[card_expire_month]")).sendKeys(expireMonth);
     }
 
     public void fillCreditCardExpireYear(String expireYear) {
+        driver.findElement(By.name("posted_data[card_expire_year]")).clear();
         driver.findElement(By.name("posted_data[card_expire_year]")).sendKeys(expireYear);
     }
 
     public void fillCreditCardCVV2(String CVV2) {
+        driver.findElement(By.name("posted_data[card_cvv2]")).clear();
         driver.findElement(By.name("posted_data[card_cvv2]")).sendKeys(CVV2);
     }
 
     public void fillCreditCardName(String name) {
+
+        driver.findElement(By.name("posted_data[card_name]")).clear();
         driver.findElement(By.name("posted_data[card_name]")).sendKeys(name);
     }
 
@@ -191,11 +200,18 @@ public class CheckoutPageObject {
         driver.findElement(By.cssSelector("button.btn.regular-button.regular-main-button.place-order.submit")).click();
     }
 
+    public boolean isOrderOkay() throws InterruptedException {
+        String text1 = "Thank you";
+        String text = driver.findElement(By.id("page-title")).getText();
+        System.out.println("PICAAAAA: " + text);
+        return text.contains(text1);
+    }
+
     public List<String> findErrors() {
         List<WebElement> Elements = driver.findElements(By.tagName("li"));
         List<String> errors = new ArrayList<>();
         for (int i = 0; i < Elements.size(); i++) {
-            if(Elements.get(i).getAttribute("class").contains("error")){
+            if (Elements.get(i).getAttribute("class").contains("error")) {
                 errors.add(Elements.get(i).getAttribute("class"));
             }
         }
@@ -211,7 +227,7 @@ public class CheckoutPageObject {
         });
     }
 
-    private boolean isElementPresent(By by) {
+    public boolean isElementPresent(By by) {
         try {
             driver.findElement(by);
             return true;
