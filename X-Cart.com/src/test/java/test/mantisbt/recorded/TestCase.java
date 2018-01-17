@@ -23,18 +23,6 @@ public class TestCase {
 
     @Test
     public void testScenario1() {
-        /*TestListenerAdapter tla = new TestListenerAdapter();
-        TestNG testng = new TestNG();
-        
-        //testng.setTestClasses(new Class[]{CartPageObjectTest.class, LoginPageObjectTest.class, HomePageObjectTest.class, RegisterPageObjectTest.class, CheckoutPageObjectTest.class});
-        //testng.setTestClasses(new Class[]{RegisterPageObjectTest.class});
-        
-        List<String> metody = new ArrayList<String>();
-                //Arrays.asList("testRegisterWithValidCredentials", "testBrowseItem", "testSearchItem");
-        metody.add("testRegisterWithValidCredentials");
-        testng.setTestNames(metody);
-        testng.addListener(tla);
-        testng.run();*/
 
         XmlSuite suite = new XmlSuite();
         suite.setName("TmpSuite");
@@ -45,30 +33,29 @@ public class TestCase {
         //RegisterPageObjectTEst
         XmlClass Register = new XmlClass("test.mantisbt.recorded.RegisterPageObjectTest");
         List<XmlInclude> methods = new ArrayList<XmlInclude>();
-        XmlInclude registerValid = new XmlInclude("testRegisterWithValidCredentials");
-        methods.add(registerValid);                
+        methods.add(new XmlInclude("testRegisterNotMatchingPasswords"));
+        methods.add(new XmlInclude("testRegisterWithValidCredentials"));                
         Register.setIncludedMethods(methods);
         
         //RegisterPageObjectTEst
         XmlClass HomePage = new XmlClass("test.mantisbt.recorded.HomePageObjectTest");
         methods = new ArrayList<XmlInclude>();
         methods.add(new XmlInclude("testBrowseItem"));  
-        methods.add(new XmlInclude("testSearchItemAndAddToCart"));  
+        methods.add(new XmlInclude("testSearchItem"));  
         methods.add(new XmlInclude("testBrowseItemAndAddToCart")); 
         HomePage.setIncludedMethods(methods);
         
-        
         //CheckoutPageObjectTEst
-        /*XmlClass CheckoutPage = new XmlClass("test.mantisbt.recorded.CheckoutPageObjectTest");
+        XmlClass CheckoutPage = new XmlClass("test.mantisbt.recorded.CheckoutPageObjectTest");
         methods = new ArrayList<XmlInclude>();
-        methods.add(new XmlInclude("testBrowseItem"));  
-        methods.add(new XmlInclude("testSearchItemAndAddToCart"));  
-        methods.add(new XmlInclude("testBrowseItemAndAddToCart")); 
-        CheckoutPage.setIncludedMethods(methods);*/
+        methods.add(new XmlInclude("testValidEmailAddressVAT"));  
+        methods.add(new XmlInclude("testValidCreditCard"));  
+        methods.add(new XmlInclude("testPurchase")); 
+        CheckoutPage.setIncludedMethods(methods);
         
         classes.add(Register);
         classes.add(HomePage);
-        //classes.add(CheckoutPage);
+        classes.add(CheckoutPage);
         test.setXmlClasses(classes);
 
         List<XmlSuite> suites = new ArrayList<XmlSuite>();

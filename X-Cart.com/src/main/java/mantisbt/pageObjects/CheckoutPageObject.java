@@ -171,14 +171,14 @@ public class CheckoutPageObject {
     }
 
     public void fillCreditCardNumber(String cardNumber) {
-        //driver.findElement(By.id("cart_number")).clear();
-       // driver.findElement(By.id("cart_number")).sendKeys(cardNumber);
+       //driver.findElement(By.id("card_number")).clear();
+       //driver.findElement(By.id("card_number")).sendKeys(cardNumber);
        //Actions actions = new Actions(driver);
-        String code = "$('#card_number').val("+cardNumber+");";
-        WebElement we = driver.findElement(By.id("card_number"));
+        /*String code = "$('#card_number').val("+cardNumber+");";
+        WebElement we = driver.findElement(By.id("card_number"));*/
         
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].val("+cardNumber+");", we);
+        js.executeScript("console.log(document.getElementById('card_number').value);");
         
     }
 

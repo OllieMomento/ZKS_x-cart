@@ -21,6 +21,7 @@ import org.testng.annotations.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.openqa.selenium.By;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.TestListenerAdapter;
 import org.testng.TestNG;
 
@@ -39,8 +40,10 @@ public class CheckoutPageObjectTest {
 
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
-        System.setProperty("webdriver.gecko.driver", "C:\\Selenium\\geckodriver.exe");
-        driver = new FirefoxDriver();
+       //System.setProperty("webdriver.gecko.driver", "C:\\Selenium\\geckodriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chromedriver.exe");
+        //driver = new FirefoxDriver();
+        driver = new ChromeDriver();
         baseUrl = "https://demostore.x-cart.com/";
         // driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
