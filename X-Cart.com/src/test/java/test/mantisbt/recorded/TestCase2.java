@@ -30,24 +30,22 @@ import org.testng.xml.XmlTest;
  * @author BeryUncool
  */
 public class TestCase2 {
+
     private RemoteWebDriver driver;
     private String baseUrl;
-    private CheckoutPageObject checkoutPage;
-    private LoginPageObject loginPage;
-    private HomePageObject homePage;
-    private CartPageObject cartPage;
+   
 
-    
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
-       System.setProperty("webdriver.gecko.driver", "C:\\Selenium\\geckodriver.exe");
+        System.setProperty("webdriver.gecko.driver", "C:\\Selenium\\geckodriver.exe");
         driver = new FirefoxDriver();
         baseUrl = "https://demostore.x-cart.com/";
-        
+
     }
-    
+
     @Test
-    public void testLoginWithValidCredentials() throws Exception {      
+    public void testLoginWithValidCredentials() throws Exception {
+        LoginPageObject loginPage = new LoginPageObject(baseUrl, driver);
         PageFactory.initElements(driver, loginPage);
         loginPage.open();
         loginPage.clickSignInUp();
@@ -61,33 +59,85 @@ public class TestCase2 {
         assertTrue("Log message: incorrect username and password", !loginPage.errorDivIsPresent() && !loginPage.errorTextIsPresent());
 
     }
-    
-    @Test(dependsOnMethods={"testLoginWithValidCredentials"})
+
+    @Test(dependsOnMethods = {"testLoginWithValidCredentials"})
     public void testSearchItem() throws Exception {
+        HomePageObject homePage = new HomePageObject(baseUrl, driver);
         PageFactory.initElements(driver, homePage);
         homePage.open();
         homePage.searchItem("Apple Iphone 6s");
-        assertTrue("Nothing was found",!driver.findElement(By.className("head-h2")).getText().contains("0"));
+        assertTrue("Nothing was found", !driver.findElement(By.className("head-h2")).getText().contains("0"));
     }
-    
+
     //@Test(dependsOnMethods={"testSearchItem"})
     public void testSearchItemAndAddToCart() throws Exception {
+        HomePageObject homePage = new HomePageObject(baseUrl, driver);
         PageFactory.initElements(driver, homePage);
         homePage.open();
         homePage.searchItemAndAddToCart("Apple Iphone 6s");
         assertTrue("Iteam was not added.", homePage.isItemAdded());
     }
-    
-    //@Test(dependsOnMethods={"testSearchItemAndAddToCart"})
+
+    @Test(dependsOnMethods={"testSearchItem"})
     public void testBrowseItemAndAddToCart() throws Exception {
+        HomePageObject homePage = new HomePageObject(baseUrl, driver);
         PageFactory.initElements(driver, homePage);
         homePage.open();
         homePage.browseItemAndAddToCart("apple-iphone-6-16gb");
         Thread.sleep(2500);
-        assertTrue("Item was not added" ,homePage.isItemAdded());
+        assertTrue("Item was not added", homePage.isItemAdded());
+    }
+    
+    @Test(dependsOnMethods={"testBrowseItemAndAddToCart"})
+    public void testInvalidEmailAddressVAT() throws Exception {
+        CheckoutPageObject checkoutPage = new CheckoutPageObject(baseUrl, driver);
+        checkoutPage = new CheckoutPageObject(baseUrl, driver);
+        PageFactory.initElements(driver, checkoutPage);
+        checkoutPage.open();
+        checkoutPage.fillEmail("a");
+        checkoutPage.fillShippingAddressFirstName("");
+        checkoutPage.fillShippingAddressLastName("Vobtahnul");
+        checkoutPage.fillShippingAddressStreet("Ritni");
+        checkoutPage.fillShippingAddressCity("Los Prdos");
+        checkoutPage.fillShippingAddressState("OllieLand");
+        checkoutPage.fillShippingAddressZipcode("12212");
+        checkoutPage.fillShippingAddressPhone("112567");
+
+        boolean isError = checkoutPage.findErrors().size() >= 1;
+
+        assertTrue("Log message: Field(s) are invalid:" + checkoutPage.findErrors().toString(), isError);
+    }
+    
+     @Test(dependsOnMethods = {"testInvalidEmailAddressVAT"})
+    public void testValidEmailAddressVAT() throws Exception {
+        CheckoutPageObject checkoutPage = new CheckoutPageObject(baseUrl, driver);
+        checkoutPage = new CheckoutPageObject(baseUrl, driver);
+        PageFactory.initElements(driver, checkoutPage);
+        driver.get(baseUrl+"?target=checkout");
+        checkoutPage.fillEmail("a@a.cz");
+        checkoutPage.fillShippingAddressFirstName("Karel");
+        checkoutPage.fillShippingAddressLastName("Vobtahnul");
+        checkoutPage.fillShippingAddressStreet("Ritni");
+        checkoutPage.fillShippingAddressCity("Los Prdos");
+        checkoutPage.fillShippingAddressState("OllieLand");
+        checkoutPage.fillShippingAddressZipcode("12212");
+        checkoutPage.fillShippingAddressPhone("112567");
+
+        boolean isError = checkoutPage.findErrors().size() >= 1;
+
+        assertTrue("Log message: Field(s) are invalid:" + checkoutPage.findErrors().toString(), !isError);
+
+    }
+    
+    @Test(dependsOnMethods = {"testValidEmailAddressVAT"})
+    public void testPurchase() throws InterruptedException{
+        CheckoutPageObject checkoutPage = new CheckoutPageObject(baseUrl, driver);
+        Thread.sleep(2000);
+        checkoutPage.placeOrder();
+        
+        boolean isOkay = checkoutPage.isOrderOkay();
+        System.out.println("isOKAY: " + isOkay);
+        assertTrue("Log message: Field(s) are invalid:", !isOkay);
     }
 
-    
-    
-    
 }

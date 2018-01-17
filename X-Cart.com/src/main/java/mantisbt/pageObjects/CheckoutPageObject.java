@@ -204,13 +204,15 @@ public class CheckoutPageObject {
     }
 
     public void placeOrder() {
-        driver.findElement(By.cssSelector("button.btn.regular-button.regular-main-button.place-order.submit")).click();
+        
+        driver.findElement(By.xpath("/html/body/div[1]/div[1]/div[4]/div/div/div/div/div/div[2]/div/div/div/div[2]/div[2]/form/div[4]/button")).click();
     }
 
     public boolean isOrderOkay() throws InterruptedException {
         String text1 = "Thank you";
+        waitForElement(driver, By.id("page-title"));
         String text = driver.findElement(By.id("page-title")).getText();
-        System.out.println("PICAAAAA: " + text);
+        System.out.println("title: " + text);
         return text.contains(text1);
     }
 
