@@ -91,7 +91,7 @@ public class RegisterPageObjectTest {
     public void testRegisterWithValidCredentials() throws Exception {
         PageFactory.initElements(driver, registerPage);
         registerPage.open();
-        registerPage.setEmailTextField("jo@gmail.com");
+        registerPage.setEmailTextField("jojo@gmail.com");
         registerPage.setPasswordField("123456");
         registerPage.setPasswordConfField("123456");
         registerPage.clickSubmitButton();
@@ -101,7 +101,7 @@ public class RegisterPageObjectTest {
 
     @AfterClass
     public void tearDown() throws Exception {
-        driver.quit();
+        //driver.quit();
         String verificationErrorString = verificationErrors.toString();
         if (!"".equals(verificationErrorString)) {
             fail(verificationErrorString);

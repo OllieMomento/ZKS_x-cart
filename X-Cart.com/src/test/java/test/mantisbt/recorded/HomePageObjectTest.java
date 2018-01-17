@@ -46,11 +46,19 @@ public class HomePageObjectTest {
     }
     
     @Test
+    public void testSearchItem() throws Exception {
+        PageFactory.initElements(driver, homePage);
+        homePage.open();
+        homePage.searchItem("Apple Iphone 6s");
+        
+    }
+    
+    @Test(priority = 8)
     public void testBrowseItemAndAddToCart() throws Exception {
         PageFactory.initElements(driver, homePage);
         homePage.open();
         homePage.browseItemAndAddToCart("apple-iphone-6-16gb");
-        Thread.sleep(1500);
+        Thread.sleep(2500);
         assertTrue("Item was not added" ,homePage.isItemAdded());
     }
     
@@ -62,13 +70,7 @@ public class HomePageObjectTest {
         
     }
     
-    @Test
-    public void testSearchItem() throws Exception {
-        PageFactory.initElements(driver, homePage);
-        homePage.open();
-        homePage.searchItem("Apple Iphone 6s");
-        
-    }
+
     
     @Test
     public void testSearchItemAndAddToCart() throws Exception {
