@@ -175,8 +175,10 @@ public class CheckoutPageObject {
        // driver.findElement(By.id("cart_number")).sendKeys(cardNumber);
        //Actions actions = new Actions(driver);
         String code = "$('#card_number').val("+cardNumber+");";
+        WebElement we = driver.findElement(By.id("card_number"));
+        
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript(code);
+        js.executeScript("arguments[0].val("+cardNumber+");", we);
         
     }
 
