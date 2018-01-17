@@ -63,7 +63,7 @@ public class HomePageObject {
     }
     
     public boolean isItemAdded() throws InterruptedException {
-        Thread.sleep(1500);
+        Thread.sleep(3000);
         String text = driver.findElement(By.id("ui-id-4")).getText();
         return text.equals("You have just added");
     }

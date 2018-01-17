@@ -26,7 +26,7 @@ public class CartPageObjectTest {
     private CartPageObject cartPage;
     private HomePageObject homePage;
     
-    @BeforeClass(alwaysRun = true)
+    //@BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
         System.setProperty("webdriver.gecko.driver", "C:\\Selenium\\geckodriver.exe");
         //System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chromedriver.exe");

@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import mantisbt.pageObjects.HomePageObject;
 
 import static org.junit.Assert.assertTrue;
+import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.*;
 import static org.testng.Assert.*;
@@ -43,6 +44,7 @@ public class HomePageObjectTest {
         PageFactory.initElements(driver, homePage);
         homePage.open();
         homePage.browseItemAndView("apple-iphone-6-16gb");
+        assertTrue("Apple not found",driver.findElement(By.xpath("/html/body/div[1]/div/div[1]/div[4]/div/div/div/div/div/div[1]/form/div[4]/h1")).getText().contains("Apple"));
     }
     
     @Test
@@ -50,7 +52,7 @@ public class HomePageObjectTest {
         PageFactory.initElements(driver, homePage);
         homePage.open();
         homePage.searchItem("Apple Iphone 6s");
-        
+        assertTrue("Nothing was found",!driver.findElement(By.className("head-h2")).getText().contains("0"));
     }
     
     @Test(priority = 8)
@@ -62,13 +64,7 @@ public class HomePageObjectTest {
         assertTrue("Item was not added" ,homePage.isItemAdded());
     }
     
-    @Test
-    public void testHoverItem() throws Exception {
-        PageFactory.initElements(driver, homePage);
-        homePage.open();
-        homePage.browseItemAndAddToCart("apple-iphone-6-16gb");
-        
-    }
+    
     
 
     
