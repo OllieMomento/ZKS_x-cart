@@ -210,10 +210,9 @@ public class CheckoutPageObject {
 
     public boolean isOrderOkay() throws InterruptedException {
         String text1 = "Thank you";
-        waitForElement(driver, By.id("page-title"));
-        String text = driver.findElement(By.id("page-title")).getText();
-        System.out.println("title: " + text);
-        return text.contains(text1);
+        waitForElement(driver, By.className("invoice"));
+        
+        return isElementPresent(By.className("invoice"));
     }
 
     public List<String> findErrors() {

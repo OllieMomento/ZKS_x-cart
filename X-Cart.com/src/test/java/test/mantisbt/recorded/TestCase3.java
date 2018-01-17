@@ -30,7 +30,7 @@ import org.testng.xml.XmlTest;
  *
  * @author BeryUncool
  */
-public class TestCase2 {
+public class TestCase3 {
 
     private RemoteWebDriver driver;
     private String baseUrl;
@@ -45,6 +45,23 @@ public class TestCase2 {
     }
 
     @Test
+    public void testLoginWithInvalidCredentials() throws Exception {      
+        LoginPageObject loginPage = new LoginPageObject(baseUrl, driver);
+        PageFactory.initElements(driver, loginPage);
+        loginPage.open();
+        loginPage.clickSignInUp();
+        String email = "joe@doe.com";
+        String password = "joeking";
+
+        loginPage.setEmailTextField(email);
+        loginPage.setPasswordField(password);
+        loginPage.clickLoginButton();
+
+        assertTrue("Log message: correct username and password", loginPage.errorDivIsPresent() && loginPage.errorTextIsPresent());
+
+    }
+    
+    @Test(dependsOnMethods = {"testLoginWithInvalidCredentials"})
     public void testLoginWithValidCredentials() throws Exception {
         LoginPageObject loginPage = new LoginPageObject(baseUrl, driver);
         PageFactory.initElements(driver, loginPage);
@@ -61,16 +78,7 @@ public class TestCase2 {
 
     }
 
-    @Test(dependsOnMethods = {"testLoginWithValidCredentials"})
-    public void testSearchItem() throws Exception {
-        HomePageObject homePage = new HomePageObject(baseUrl, driver);
-        PageFactory.initElements(driver, homePage);
-        homePage.open();
-        homePage.searchItem("Apple Iphone 6s");
-        assertTrue("Nothing was found", !driver.findElement(By.className("head-h2")).getText().contains("0"));
-    }
-
-    //@Test(dependsOnMethods={"testSearchItem"})
+    @Test(dependsOnMethods={"testLoginWithValidCredentials"})
     public void testSearchItemAndAddToCart() throws Exception {
         HomePageObject homePage = new HomePageObject(baseUrl, driver);
         PageFactory.initElements(driver, homePage);
@@ -79,17 +87,17 @@ public class TestCase2 {
         assertTrue("Iteam was not added.", homePage.isItemAdded());
     }
 
-    @Test(dependsOnMethods={"testSearchItem"})
-    public void testBrowseItemAndAddToCart() throws Exception {
-        HomePageObject homePage = new HomePageObject(baseUrl, driver);
-        PageFactory.initElements(driver, homePage);
-        homePage.open();
-        homePage.browseItemAndAddToCart("apple-iphone-6-16gb");
-        Thread.sleep(2500);
-        assertTrue("Item was not added", homePage.isItemAdded());
+    @Test(dependsOnMethods = {"testSearchItemAndAddToCart"})
+    public void testChangeQuantity() throws Exception {  
+        CartPageObject cartPage = new CartPageObject(baseUrl, driver);  
+        PageFactory.initElements(driver, cartPage);
+        cartPage.open();
+        cartPage.changeQuantity("3");
+        Thread.sleep(3000);
+        assertTrue("Log message: Items wasnt changed", cartPage.isChangeOkay("3"));
     }
     
-    @Test(dependsOnMethods={"testBrowseItemAndAddToCart"})
+    @Test(dependsOnMethods={"testChangeQuantity"})
     public void testInvalidEmailAddressVAT() throws Exception {
         CheckoutPageObject checkoutPage = new CheckoutPageObject(baseUrl, driver);
         checkoutPage = new CheckoutPageObject(baseUrl, driver);
@@ -97,9 +105,9 @@ public class TestCase2 {
         checkoutPage.open();
         checkoutPage.fillEmail("a");
         checkoutPage.fillShippingAddressFirstName("");
-        checkoutPage.fillShippingAddressLastName("Drbal");
-        checkoutPage.fillShippingAddressStreet("Ricni");
-        checkoutPage.fillShippingAddressCity("Otvor");
+        checkoutPage.fillShippingAddressLastName("Chvila");
+        checkoutPage.fillShippingAddressStreet("Ritni");
+        checkoutPage.fillShippingAddressCity("Praha");
         checkoutPage.fillShippingAddressState("OllieLand");
         checkoutPage.fillShippingAddressZipcode("12212");
         checkoutPage.fillShippingAddressPhone("112567");
@@ -118,8 +126,8 @@ public class TestCase2 {
         checkoutPage.fillEmail("a@a.cz");
         checkoutPage.fillShippingAddressFirstName("Honza");
         checkoutPage.fillShippingAddressLastName("Drbal");
-        checkoutPage.fillShippingAddressStreet("Podsourni 13");
-        checkoutPage.fillShippingAddressCity("Pytle");
+        checkoutPage.fillShippingAddressStreet("Ritni");
+        checkoutPage.fillShippingAddressCity("Otvor");
         checkoutPage.fillShippingAddressState("OllieLand");
         checkoutPage.fillShippingAddressZipcode("12212");
         checkoutPage.fillShippingAddressPhone("112567");
