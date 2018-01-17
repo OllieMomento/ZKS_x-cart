@@ -40,10 +40,10 @@ public class CheckoutPageObjectTest {
 
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
-       //System.setProperty("webdriver.gecko.driver", "C:\\Selenium\\geckodriver.exe");
-        System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chromedriver.exe");
-        //driver = new FirefoxDriver();
-        driver = new ChromeDriver();
+       System.setProperty("webdriver.gecko.driver", "C:\\Selenium\\geckodriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chromedriver.exe");
+        driver = new FirefoxDriver();
+        //driver = new ChromeDriver();
         baseUrl = "https://demostore.x-cart.com/";
         // driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
@@ -78,11 +78,12 @@ public class CheckoutPageObjectTest {
 
     }
 
-    @Test(dependsOnMethods = {"testAddItemAndCheckout"})
+    @Test
+        //(dependsOnMethods = {"testAddItemAndCheckout"})
     public void testValidEmailAddressVAT() throws Exception {
         checkoutPage = new CheckoutPageObject(baseUrl, driver);
         PageFactory.initElements(driver, checkoutPage);
-        checkoutPage.open();
+        driver.get(baseUrl+"?target=checkout");
         checkoutPage.fillEmail("a@a.cz");
         checkoutPage.fillShippingAddressFirstName("Karel");
         checkoutPage.fillShippingAddressLastName("Vobtahnul");
@@ -117,7 +118,8 @@ public class CheckoutPageObjectTest {
         assertTrue("Log message: Field(s) are invalid:" + checkoutPage.findErrors().toString(), isError);
     }
 
-    @Test(dependsOnMethods = {"testValidEmailAddressVAT"})
+    @Test
+        //(dependsOnMethods = {"testValidEmailAddressVAT"})
     public void testValidCreditCard() throws Exception {
         Thread.sleep(2000);
         checkoutPage = new CheckoutPageObject(baseUrl, driver);
@@ -137,6 +139,14 @@ public class CheckoutPageObjectTest {
 
         boolean isOkay = checkoutPage.isOrderOkay();
 
+        assertTrue("Log message: Field(s) are invalid:", isOkay);
+    }
+    
+    @Test
+    public void testPurchase() throws InterruptedException{
+        checkoutPage.placeOrder();
+        Thread.sleep(6000);
+        boolean isOkay = checkoutPage.isOrderOkay();
         assertTrue("Log message: Field(s) are invalid:", isOkay);
     }
 }

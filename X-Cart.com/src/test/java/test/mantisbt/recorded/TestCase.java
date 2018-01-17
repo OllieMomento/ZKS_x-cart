@@ -33,7 +33,7 @@ public class TestCase {
         //RegisterPageObjectTEst
         XmlClass Register = new XmlClass("test.mantisbt.recorded.RegisterPageObjectTest");
         List<XmlInclude> methods = new ArrayList<XmlInclude>();
-        methods.add(new XmlInclude("testRegisterNotMatchingPasswords"));
+        //methods.add(new XmlInclude("testRegisterNotMatchingPasswords"));
         methods.add(new XmlInclude("testRegisterWithValidCredentials"));                
         Register.setIncludedMethods(methods);
         
@@ -49,7 +49,6 @@ public class TestCase {
         XmlClass CheckoutPage = new XmlClass("test.mantisbt.recorded.CheckoutPageObjectTest");
         methods = new ArrayList<XmlInclude>();
         methods.add(new XmlInclude("testValidEmailAddressVAT"));  
-        methods.add(new XmlInclude("testValidCreditCard"));  
         methods.add(new XmlInclude("testPurchase")); 
         CheckoutPage.setIncludedMethods(methods);
         

@@ -28,10 +28,10 @@ public class HomePageObjectTest {
 
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
-        //System.setProperty("webdriver.gecko.driver", "C:\\Selenium\\geckodriver.exe");
-        System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chromedriver.exe");
-        //driver = new FirefoxDriver();
-        driver = new ChromeDriver();
+        System.setProperty("webdriver.gecko.driver", "C:\\Selenium\\geckodriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chromedriver.exe");
+        driver = new FirefoxDriver();
+        //driver = new ChromeDriver();
         baseUrl = "https://demostore.x-cart.com/";
         // driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         homePage = new HomePageObject(baseUrl, driver);
@@ -50,6 +50,7 @@ public class HomePageObjectTest {
         PageFactory.initElements(driver, homePage);
         homePage.open();
         homePage.browseItemAndAddToCart("apple-iphone-6-16gb");
+        Thread.sleep(1500);
         assertTrue("Item was not added" ,homePage.isItemAdded());
     }
     

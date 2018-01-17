@@ -55,15 +55,18 @@ public class RegisterPageObject {
     public void setEmailTextField(String emailValue) {
         System.out.println("emailvalue: " + emailValue);
         waitForElement(driver, By.name("login"));
+        driver.findElement(By.name("login")).clear();
         driver.findElement(By.name("login")).sendKeys(emailValue);
 
     }
 
     public void setPasswordField(String passwordValue) {
+        driver.findElement(By.name("password")).clear();
         driver.findElement(By.name("password")).sendKeys(passwordValue);
     }
 
     public void setPasswordConfField(String passworConf){
+        driver.findElement(By.name("password_conf")).clear();
         driver.findElement(By.name("password_conf")).sendKeys(passworConf);
     }
     

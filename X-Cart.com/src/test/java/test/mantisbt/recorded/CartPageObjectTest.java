@@ -28,10 +28,10 @@ public class CartPageObjectTest {
     
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
-        //System.setProperty("webdriver.gecko.driver", "C:\\Selenium\\geckodriver.exe");
-        System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chromedriver.exe");
-        //driver = new FirefoxDriver();
-        driver = new ChromeDriver();
+        System.setProperty("webdriver.gecko.driver", "C:\\Selenium\\geckodriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chromedriver.exe");
+        driver = new FirefoxDriver();
+        //driver = new ChromeDriver();
         baseUrl = "https://demostore.x-cart.com/";
         // driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
          
