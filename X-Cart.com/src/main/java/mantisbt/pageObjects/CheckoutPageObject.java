@@ -171,8 +171,13 @@ public class CheckoutPageObject {
     }
 
     public void fillCreditCardNumber(String cardNumber) {
-        driver.findElement(By.id("cart_number")).clear();
+        //driver.findElement(By.id("cart_number")).clear();
        // driver.findElement(By.id("cart_number")).sendKeys(cardNumber);
+       //Actions actions = new Actions(driver);
+        String code = "$('#card_number').val("+cardNumber+");";
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript(code);
+        
     }
 
     public void fillCreditCardExpireMonth(String expireMonth) {

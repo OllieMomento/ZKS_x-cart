@@ -118,18 +118,11 @@ public class CheckoutPageObjectTest {
     public void testValidCreditCard() throws Exception {
         Thread.sleep(2000);
         checkoutPage = new CheckoutPageObject(baseUrl, driver);
-        while (!checkoutPage.isElementPresent(By.id("cart_number"))) {
-            System.out.println(driver.findElement(By.id("page-title")).getText());
-            System.out.println(driver.findElement(By.id("payment_form")).getText());
-            
-            Thread.sleep(5000);
-        }
-
-        System.out.println("KOKOTEEE: " + driver.findElement(By.id("cart_number")).getText());
         //PageFactory.initElements(driver, checkoutPage);
         //checkoutPage.open();
+        Thread.sleep(3000);
         checkoutPage.selectPaymentMethod();
-        Thread.sleep(50000);
+        Thread.sleep(3000);
         checkoutPage.fillCreditCardNumber("4242424200024242");
         //checkoutPage.fillCreditCardExpireMonth("9");
         //checkoutPage.fillCreditCardExpireYear("19");
